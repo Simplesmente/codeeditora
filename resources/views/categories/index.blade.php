@@ -30,12 +30,13 @@
                                 </ul>
                                    <ul>
                                     <li>
-                                    <a href="{{ route('categories.edit',['category' => $category->id]) }}" class="btn btn-link"
+                                    <a href="{{ route('categories.destroy',['category' => $category->id]) }}" class="btn btn-link"
                                         onclick="event.preventDefault();document.getElementById('delete-form-item-{{$category->id}}').submit()">Deletar</a>
                                         {!! Form::open(['route' => ['categories.destroy','category' => $category->id],'method' => 'delete','id' => "delete-form-item-{$category->id}",'style' =>'display:none']) !!}
                                             {!! Form::submit('Excluir',['class' => 'btn btn-link']) !!}
                                         {!! Form::close() !!}
                                     </li>
+
                                 </ul>
                                
                               

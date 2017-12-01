@@ -15,9 +15,16 @@
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
+    // return [
+    //         'name' => 'André',
+    //         'email' => 'admin@domain.com',
+    //         'password' => $password ?: $password = bcrypt('secret'),
+    //         'remember_token' => str_random(10),
+    //     ];
+
     return [
-        'name' => 'André',
-        'email' => 'admin@domain.com',
+        'name' => $faker->name,
+        'email' => $faker->email,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
@@ -35,6 +42,7 @@ $factory->define(App\Book::class, function (Faker\Generator $faker) {
     return [
         'title' => ucfirst($faker->word),
         'subtitle' => $faker->sentence,
-        'price' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 999) // 48.8932,
+        'price' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 999), // 48.8932,
+        'user_id' => rand(1, 10)
     ];
 });

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Book;
-use Illuminate\Http\Request;
+use App\Http\Requests\BookRequest;
+
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class BookController extends Controller
 {
@@ -39,10 +41,9 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param App\Http\Requests\BookRequest  $request
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
         Book::create($request->all());
         
@@ -78,11 +79,11 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param App\Http\Requests\BookRequest  $request
      * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BookRequest $request, $id)
     {
         if (! ($book = $this->book->find($id))) {
             throw new ModelNotFoundException('Livro não encontrado');

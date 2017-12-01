@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <h3>Editar Categoria</h3>   
-           
+            
             {!! Form::model( $category,[
                                 'route' => ['categories.update',
                                 'category' => $category->id],
@@ -13,10 +13,11 @@
                                 'method' => 'PUT'
                             ]) !!}
 
-            <div class="form-group">
-                {!! Form::Label('name', 'Nome') !!}
-                {!! Form::Text('name',null, ['class' => 'form-control']) !!} 
-            </div>
+                {!! Html::openFormGroup('name',$errors) !!}
+                    {!! Form::Label('name', 'Nome') !!}
+                    {!! Form::Text('name',null, ['class' => 'form-control']) !!} 
+                    {!! Form::error('name',$errors) !!}
+                {!! Html::closeFormGroup() !!}
 
             <div class="form-group">
                 {!! Form::submit('Salvar categoria',['class' => 'btn btn-primary']) !!}
