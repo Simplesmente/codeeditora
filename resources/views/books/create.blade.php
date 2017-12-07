@@ -7,7 +7,9 @@
             <h3>Nova Livro</h3>   
           
             {!! Form::open(['route' => 'books.store','class' => 'form']) !!}
-
+            
+                {!! Form::hidden('redirect_to',URL::previous()) !!}
+                
                 {!! Html::openFormGroup('title',$errors) !!}
 
                     {!! Form::Label('title', 'Título') !!}

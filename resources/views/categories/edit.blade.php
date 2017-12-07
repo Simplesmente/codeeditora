@@ -13,10 +13,14 @@
                                 'method' => 'PUT'
                             ]) !!}
 
+                {!! Form::hidden('redirect_to',URL::previous()) !!}
+
                 {!! Html::openFormGroup('name',$errors) !!}
+                
                     {!! Form::Label('name', 'Nome') !!}
                     {!! Form::Text('name',null, ['class' => 'form-control']) !!} 
                     {!! Form::error('name',$errors) !!}
+                
                 {!! Html::closeFormGroup() !!}
 
             <div class="form-group">

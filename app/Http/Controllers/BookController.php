@@ -47,7 +47,8 @@ class BookController extends Controller
     {
         Book::create($request->all());
         
-        return redirect()->route('books.index');
+        $urlPrevious = $request->get('redirect_to', route('books.index'));
+        return redirect()->to($urlPrevious);
     }
 
     /**
@@ -72,7 +73,7 @@ class BookController extends Controller
         if (! ($book = $this->book->find($id))) {
             throw new ModelNotFoundException('Livro não encontrado');
         }
-
+        
         return view('books.edit', ['book'=> $book]);
     }
 
@@ -92,8 +93,8 @@ class BookController extends Controller
         $data = $request->all();
         $book->fill($data);
         $book->save();
-
-        return redirect()->route('books.index');
+        $urlPrevious = $request->get('redirect_to', route('books.index'));
+        return redirect()->to($urlPrevious);
     }
 
     /**

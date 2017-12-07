@@ -30,8 +30,10 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         Category::create($request->all());
-
-        return redirect()->route('categories.index');
+        
+        $urlPrevious = $request->get('redirect_to', route('categories.index'));
+        $request->session()->flash('message', 'Categoria cadastrada com sucesso.');
+        return redirect()->to($urlPrevious);
     }
 
     public function edit($id)
@@ -52,18 +54,19 @@ class CategoryController extends Controller
         $data = $request->all();
         $category->fill($data);
         $category->save();
-
-        return redirect()->route('categories.index');
+        $urlPrevious = $request->get('redirect_to', route('categories.index'));
+        return redirect()->to($urlPrevious);
     }
 
-    public function destroy(CategoryRequest $request, $id)
+    public function destroy($id)
     {
         if (! ($category = $this->category->find($id))) {
             throw new ModelNotFoundException('Categoria não encontrada');
         }
         
         $category->delete();
-
+        \Session::flash('message', 'Categoria cadastradas com sucesso.');
+        
         return redirect()->route('categories.index');
     }
 }

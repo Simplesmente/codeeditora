@@ -12,7 +12,9 @@
                                 'class' => 'form',
                                 'method' => 'PUT'
                             ]) !!}
-
+                
+                {!! Form::hidden('redirect_to',URL::previous()) !!}
+                
                 {!! Html::openFormGroup('title',$errors) !!}
                     {!! Form::Label('title', 'Título') !!}
                     {!! Form::Text('title',null, ['class' => 'form-control']) !!}

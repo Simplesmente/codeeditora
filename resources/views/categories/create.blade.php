@@ -7,6 +7,8 @@
             <h3>Nova Categoria</h3>   
             
             {!! Form::open(['route' => 'categories.store','class' => 'form']) !!}
+                
+                {!! Form::hidden('redirect_to',URL::previous()) !!}
 
                 {!! Html::openFormGroup('name',$errors) !!}
 
@@ -19,7 +21,8 @@
             
 
             <div class="form-group">
-                {!! Form::submit('Cria categoria',['class' => 'btn btn-primary']) !!}
+                <!-- {!! Form::submit('Cria categoria',['class' => 'btn btn-primary']) !!} -->
+                {!! Button::primary('Cria categoria')->submit() !!}
             </div>
 
             {!! Form::close() !!}

@@ -21,14 +21,17 @@ class BookRequest extends FormRequest
         /** @var Book|int*/
         $paramFromRoute = $this->route('book');
 
+        if (is_null($paramFromRoute)) {
+            return true;
+        }
+        
         if ($paramFromRoute instanceof Book) {
             $book = $paramFromRoute;
         }
-
+        
         if (is_numeric($paramFromRoute)) {
             $book = Book::find($paramFromRoute);
         }
-                
         if (\Auth::user()->id === $book->author->id) {
             return true;
         }
