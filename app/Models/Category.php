@@ -1,12 +1,16 @@
 <?php
 
-namespace CodePub;
+namespace CodePub\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
 use Bootstrapper\Interfaces\TableInterface;
 
-class Category extends Model implements TableInterface
+class Category extends Model implements Transformable, TableInterface
 {
+    use TransformableTrait;
+
     protected $fillable = ['name'];
 
     /**

@@ -1,17 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace CodePub\Http\Controllers;
 
-use App\Book;
-use App\Http\Requests\BookRequest;
+use Illuminate\Http\Request;
 
+use CodePub\Repositories\BookRepository;
+use CodePub\Http\Requests\BookRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class BookController extends Controller
 {
+    /**
+     * Repository Book
+     *
+     * @var [CodePub\Repositories\BookRepository]
+     */
     private $book;
     
-    public function __construct(Book $model)
+    public function __construct(BookRepository $model)
     {
         $this->book = $model;
     }
@@ -21,11 +27,12 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books = $this->book->query()->paginate(15);
+        $books = $this->book->paginate(15);
+        $search = $request->get('search');
 
-        return view('books.index', ['books' => $books]);
+        return view('books.index', compact('books', 'search'));
     }
 
     /**
@@ -41,12 +48,15 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param App\Http\Requests\BookRequest  $request
+     * @param CodePub\Http\Requests\BookRequest  $request
      */
     public function store(BookRequest $request)
     {
-        Book::create($request->all());
-        
+        $dataFromRequest = $request->all();
+        $dataFromRequest['user_id'] = \Auth::user()->id;
+
+        $this->book->create($dataFromRequest);
+        $request->session()->flash('message', 'Livro cadastrado com sucesso.');
         $urlPrevious = $request->get('redirect_to', route('books.index'));
         return redirect()->to($urlPrevious);
     }
@@ -54,7 +64,7 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Book  $book
+     * @param  \CodePub\Book  $book
      * @return \Illuminate\Http\Response
      */
     public function show(Book $book)
@@ -65,7 +75,7 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Book  $book
+     * @param  \CodePub\Book  $book
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -80,8 +90,8 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param App\Http\Requests\BookRequest  $request
-     * @param  \App\Book  $book
+     * @param CodePub\Http\Requests\BookRequest  $request
+     * @param  \CodePub\Book  $book
      * @return \Illuminate\Http\Response
      */
     public function update(BookRequest $request, $id)
@@ -90,9 +100,10 @@ class BookController extends Controller
             throw new ModelNotFoundException('Livro não encontrado');
         }
 
-        $data = $request->all();
-        $book->fill($data);
+        $dataFromRequest = $request->except('user_id');
+        $book->fill($dataFromRequest);
         $book->save();
+        $request->session()->flash('message', 'Livro atualizado com sucesso.');
         $urlPrevious = $request->get('redirect_to', route('books.index'));
         return redirect()->to($urlPrevious);
     }
@@ -100,7 +111,7 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Book  $book
+     * @param  \CodePub\Book  $book
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -110,7 +121,7 @@ class BookController extends Controller
         }
         
         $book->delete();
-
+        \Session::flash('message', 'Livro deletado com sucesso.');
         return redirect()->route('books.index');
     }
 }

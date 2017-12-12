@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace CodePub\Http\Requests;
 
-use App\Category;
+use CodePub\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 

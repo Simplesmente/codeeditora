@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace CodePub\Http\Requests;
 
-use App\Book;
-use App\Http\Requests\CategoryRequest;
+use CodePub\Book;
+use CodePub\Http\Requests\CategoryRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BookRequest extends FormRequest

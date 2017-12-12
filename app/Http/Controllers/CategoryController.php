@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace CodePub\Http\Controllers;
 
-use App\Category;
-use App\Http\Requests\CategoryRequest;
+use CodePub\Repositories\CategoryRepository;
+use CodePub\Http\Requests\CategoryRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CategoryController extends Controller
 {
     private $category;
 
-    public function __construct(Category $model)
+    public function __construct(CategoryRepository $model)
     {
         $this->category = $model;
     }
 
     public function index()
     {
-        $categories = $this->category->query()->paginate(15);
+        $categories = $this->category->paginate(15);
         
         return view('categories.index', ['categories' => $categories]);
     }
@@ -29,8 +29,8 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-        Category::create($request->all());
-        
+        $this->category->create($request->all());
+
         $urlPrevious = $request->get('redirect_to', route('categories.index'));
         $request->session()->flash('message', 'Categoria cadastrada com sucesso.');
         return redirect()->to($urlPrevious);
@@ -54,6 +54,7 @@ class CategoryController extends Controller
         $data = $request->all();
         $category->fill($data);
         $category->save();
+        $request->session()->flash('message', 'Categoria atualizada com sucesso.');
         $urlPrevious = $request->get('redirect_to', route('categories.index'));
         return redirect()->to($urlPrevious);
     }
@@ -65,7 +66,7 @@ class CategoryController extends Controller
         }
         
         $category->delete();
-        \Session::flash('message', 'Categoria cadastradas com sucesso.');
+        \Session::flash('message', 'Categoria excluída com sucesso.');
         
         return redirect()->route('categories.index');
     }
