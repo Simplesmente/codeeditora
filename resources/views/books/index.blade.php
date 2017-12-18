@@ -7,7 +7,7 @@
             <h3>Listagem de Livros</h3>   
             <a href="{{ route('books.create') }}" class="btn btn-primary">Novo Livro</a>
         </div>
-        
+        <br>
         <div class="row">
             {!! Form::model(compact('search'),['class' =>'form-inline','method' => 'GET']) !!}
                 {!! Form::label('search','Pesquisar por título',['class' => 'control-label']) !!}
@@ -15,7 +15,7 @@
                 {!! Button::primary('Buscar')->submit() !!}
             {!! Form::close() !!}
         </div>
-
+        <br>
         <div class="row">
 
         {!! 

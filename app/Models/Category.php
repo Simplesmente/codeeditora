@@ -39,4 +39,9 @@ class Category extends Model implements Transformable, TableInterface
             return $this->name;
         }
     }
+
+    public function books()
+    {
+        return $this->belongsToMany(Book::class);
+    }
 }

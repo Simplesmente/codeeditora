@@ -55,4 +55,9 @@ class Book extends Model implements Transformable, TableInterface
             return $this->price;
         }
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }
