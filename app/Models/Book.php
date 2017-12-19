@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Bootstrapper\Interfaces\TableInterface;
+use Collective\Html\Eloquent\FormAccessible;
 
 class Book extends Model implements Transformable, TableInterface
 {
-    use TransformableTrait;
+    use TransformableTrait,FormAccessible;
     
     protected $fillable = [
         'title',
@@ -18,6 +19,11 @@ class Book extends Model implements Transformable, TableInterface
         'user_id'
     ];
     
+    public function formCategoriesAttribute()
+    {
+        return $this->categories->pluck('id')->toArray();
+    }
+
     public function author()
     {
         return $this->belongsTo(\CodePub\User::class, 'user_id', 'id');

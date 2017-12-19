@@ -5,6 +5,7 @@ namespace CodePub\Http\Controllers;
 use Illuminate\Http\Request;
 
 use CodePub\Repositories\BookRepository;
+use CodePub\Repositories\CategoryRepository;
 use CodePub\Http\Requests\BookRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -40,9 +41,11 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(CategoryRepository $category)
     {
-        return view('books.create');
+        $categories = $category->pluck('name', 'id');
+        
+        return view('books.create', compact('categories'));
     }
 
     /**
@@ -78,13 +81,15 @@ class BookController extends Controller
      * @param  \CodePub\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, CategoryRepository $category)
     {
+        $categories = $category->pluck('name', 'id');
+
         if (! ($book = $this->book->find($id))) {
             throw new ModelNotFoundException('Livro não encontrado');
         }
         
-        return view('books.edit', ['book'=> $book]);
+        return view('books.edit', compact('book', 'categories'));
     }
 
     /**
@@ -101,8 +106,10 @@ class BookController extends Controller
         }
 
         $dataFromRequest = $request->except('user_id');
+        dd($dataFromRequest);
         $book->fill($dataFromRequest);
         $book->save();
+
         $request->session()->flash('message', 'Livro atualizado com sucesso.');
         $urlPrevious = $request->get('redirect_to', route('books.index'));
         return redirect()->to($urlPrevious);

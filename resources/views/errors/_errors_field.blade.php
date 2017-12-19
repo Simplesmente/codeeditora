@@ -1,7 +1,16 @@
 <span class="help-block">
-<strong>{{ $errors->first('name') }}</strong>
-<strong>{{ $errors->first('title') }}</strong>
-<strong>{{ $errors->first('subtitle') }}</strong>
-<strong>{{ $errors->first('price') }}</strong>
+
+@if(!str_contains($field,'*'))
+    <strong>{{ $errors->first($field) }}</strong>
+@else
+    <ul>
+
+        @foreach($errors->get($field) as $error)
+            <li>{{ $error[0] }}</li>
+        @endforeach
+    
+    </ul>
+@endif
+
 
 </span>

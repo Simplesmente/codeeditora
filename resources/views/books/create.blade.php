@@ -17,7 +17,14 @@
                     {!! Form::error('title',$errors) !!}
 
                 {!! Html::closeFormGroup() !!}
-
+                
+                {!! Html::openFormGroup('categories',$errors) !!}
+                    {!! Form::Label('categories[]', 'Categorias') !!}
+                    {!! Form::select('categories[]',$categories,null, ['class' => 'form-control','multiple' =>true]) !!} 
+                    {!! Form::error('categories',$errors) !!}
+                    {!! Form::error('categories.*',$errors) !!}
+                {!! Html::closeFormGroup() !!}
+                
                 {!! Html::openFormGroup('subtitle',$errors) !!}
                     {!! Form::Label('subtitle', 'Subtítulo') !!}
                     {!! Form::Text('subtitle',null, ['class' => 'form-control']) !!} 

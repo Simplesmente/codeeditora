@@ -2,7 +2,7 @@
 
 namespace CodePub\Http\Requests;
 
-use CodePub\Book;
+use CodePub\Models\Book;
 use CodePub\Http\Requests\CategoryRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -46,26 +46,44 @@ class BookRequest extends FormRequest
      */
     public function rules()
     {
+        $id = null;
+        $book = null;
+        
+
+        if ($book = $this->route('book') instanceof Book) {
+            $id = $book->id;
+        }
+
+        if ($book = $this->route('book')) {
+            $id = $book;
+        }
+        
         return [
-            'title' => "required|unique:books,title|max:255",
+            'title' => "required|unique:books,title,$id|max:255",
             'subtitle' => "required|max:255",
             'price' => "required|max:255",
+            'categories' => 'required|array',
+            'categories.*' => 'exists:categories,id'
         ];
     }
 
     
     public function messages()
     {
-        return [
-            'title.required' => 'O nome é obrigatório!',
-            'title.unique' => 'Título já existe!',
-            'title.max' => 'Título deve conter no máximo 255!',
-            
-            'subtitle.required' => 'Subtítulo é obrigatório!',
-            'subtitle.max' => 'Subtítulo deve conter no máximo 255!',
+        $result = [];
 
-            'price.required' => 'Preço é obrigatório!',
-            'price.max' => 'Preço deve conter no máximo 255!',
-        ];
+        $categories = $this->get('categories', []);
+        $count = count($categories);
+
+        if (is_array($categories) && $count > 0) {
+            foreach (range(0, $count -1) as $value) {
+                $field = \Lang::get('validation.attributes.categories_*', ['num' => $value + 1]);
+            }
+            $message = \Lang::get('validation.exists', ['attributes' => $field]);
+
+            $result["categories.$value.exists"] = $message;
+        }
+
+        return $result;
     }
 }

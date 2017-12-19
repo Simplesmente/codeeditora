@@ -29,7 +29,20 @@ class BookRepositoryEloquent extends BaseRepository implements BookRepository
         return Book::class;
     }
 
-    
+    public function create(array $attributes)
+    {
+        $model = parent::create($attributes);
+        $model->categories()->sync($attributes['categories']);
+        
+        return $model;
+    }
+
+    public function update(array $attributes, $id)
+    {
+        dd('aqui');
+        $model = parent::update($attributes, $id);
+        $model->categories()->sync($attributes['categories']);
+    }
 
     /**
      * Boot up the repository, pushing criteria

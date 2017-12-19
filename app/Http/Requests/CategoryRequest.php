@@ -2,7 +2,7 @@
 
 namespace CodePub\Http\Requests;
 
-use CodePub\Category;
+use CodePub\Models\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 

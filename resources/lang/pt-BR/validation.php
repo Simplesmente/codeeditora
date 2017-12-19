@@ -147,6 +147,8 @@ return [
         'title'                 => 'título',
         'username'              => 'usuário',
         'year'                  => 'ano',
+        'categories'                  => 'categorias',
+        'categories_*'                  => 'categorias :num',
     ],
 
 ];
