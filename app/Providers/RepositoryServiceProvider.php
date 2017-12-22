@@ -5,6 +5,8 @@ namespace CodePub\Providers;
 use Illuminate\Support\ServiceProvider;
 use CodePub\Repositories\CategoryRepository;
 use CodePub\Repositories\CategoryRepositoryEloquent;
+use CodePub\Repositories\BookRepository;
+use CodePub\Repositories\BookRepositoryEloquent;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -26,7 +28,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(CategoryRepository::class, CategoryRepositoryEloquent::class);
-        $this->app->bind(\CodePub\Repositories\BookRepository::class, \CodePub\Repositories\BookRepositoryEloquent::class);
+        $this->app->bind(BookRepository::class, BookRepositoryEloquent::class);
         //:end-bindings:
     }
 }

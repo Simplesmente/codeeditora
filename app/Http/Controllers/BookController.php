@@ -106,9 +106,8 @@ class BookController extends Controller
         }
 
         $dataFromRequest = $request->except('user_id');
-        dd($dataFromRequest);
-        $book->fill($dataFromRequest);
-        $book->save();
+        
+        $this->book->update($dataFromRequest,$id);
 
         $request->session()->flash('message', 'Livro atualizado com sucesso.');
         $urlPrevious = $request->get('redirect_to', route('books.index'));

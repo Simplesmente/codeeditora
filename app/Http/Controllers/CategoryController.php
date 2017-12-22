@@ -16,7 +16,7 @@ class CategoryController extends Controller
     }
 
     public function index()
-    {
+    { 
         $categories = $this->category->paginate(15);
         
         return view('categories.index', ['categories' => $categories]);
@@ -29,6 +29,7 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
+        
         $this->category->create($request->all());
 
         $urlPrevious = $request->get('redirect_to', route('categories.index'));

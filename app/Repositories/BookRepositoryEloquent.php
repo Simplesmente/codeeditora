@@ -39,7 +39,6 @@ class BookRepositoryEloquent extends BaseRepository implements BookRepository
 
     public function update(array $attributes, $id)
     {
-        dd('aqui');
         $model = parent::update($attributes, $id);
         $model->categories()->sync($attributes['categories']);
     }
