@@ -35,8 +35,18 @@
                             'title' => 'Categorias'
                         ],
                         [
-                            'link' => route('books.index'),
-                            'title' => 'Livros'
+                            'Livro',
+                            [
+                                [
+                                    'link' => route('books.index'),
+                                    'title' => 'Listagem'
+                                ],
+                                [
+                                    'link' => route('trashed.books.index'),
+                                    'title' => 'Lixeira'
+                                ]
+                            ]
+                            
                         ],
                 ]);
                 

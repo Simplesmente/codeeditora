@@ -3,15 +3,18 @@
 namespace CodePub\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Bootstrapper\Interfaces\TableInterface;
 
 class Category extends Model implements Transformable, TableInterface
 {
-    use TransformableTrait;
+    use TransformableTrait,SoftDeletes;
 
     protected $fillable = ['name'];
+
+    protected $dates = ['deleted_at'];
 
     /**
     * A list of headers to be used when a table is displayed

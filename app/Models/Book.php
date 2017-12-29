@@ -3,6 +3,7 @@
 namespace CodePub\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Bootstrapper\Interfaces\TableInterface;
@@ -10,7 +11,9 @@ use Collective\Html\Eloquent\FormAccessible;
 
 class Book extends Model implements Transformable, TableInterface
 {
-    use TransformableTrait,FormAccessible;
+    use TransformableTrait,FormAccessible,SoftDeletes;
+
+    protected $dates = ['deleted_at'];
     
     protected $fillable = [
         'title',
