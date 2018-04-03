@@ -17,7 +17,7 @@ class BookController extends Controller
      * @var [CodePub\Repositories\BookRepository]
      */
     private $book;
-    
+
     public function __construct(BookRepository $model)
     {
         $this->book = $model;
@@ -32,7 +32,7 @@ class BookController extends Controller
     {
         $books = $this->book->paginate(15);
         $search = $request->get('search');
-
+        
         return view('books.index', compact('books', 'search'));
     }
 
@@ -44,7 +44,7 @@ class BookController extends Controller
     public function create(CategoryRepository $category)
     {
         $categories = $category->pluck('name', 'id');
-        
+
         return view('books.create', compact('categories'));
     }
 
@@ -88,7 +88,7 @@ class BookController extends Controller
         if (! ($book = $this->book->find($id))) {
             throw new ModelNotFoundException('Livro não encontrado');
         }
-        
+
         return view('books.edit', compact('book', 'categories'));
     }
 
@@ -106,7 +106,7 @@ class BookController extends Controller
         }
 
         $dataFromRequest = $request->except('user_id');
-        
+
         $this->book->update($dataFromRequest,$id);
 
         $request->session()->flash('message', 'Livro atualizado com sucesso.');
@@ -125,7 +125,7 @@ class BookController extends Controller
         if (! ($book = $this->book->find($id))) {
             throw new ModelNotFoundException('Livro não encontrado');
         }
-        
+
         $book->delete();
         \Session::flash('message', 'Livro deletado com sucesso.');
         return redirect()->route('books.index');

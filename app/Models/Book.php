@@ -14,14 +14,14 @@ class Book extends Model implements Transformable, TableInterface
     use TransformableTrait,FormAccessible,SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    
+
     protected $fillable = [
         'title',
         'subtitle',
         'price',
         'user_id'
     ];
-    
+
     public function formCategoriesAttribute()
     {
         return $this->categories->pluck('id')->toArray();
@@ -29,9 +29,9 @@ class Book extends Model implements Transformable, TableInterface
 
     public function author()
     {
-        return $this->belongsTo(\CodePub\User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
-    
+
     /**
     * A list of headers to be used when a table is displayed
     *
@@ -41,7 +41,7 @@ class Book extends Model implements Transformable, TableInterface
     {
         return [ 'ID','Titulo','Autor','Preço'];
     }
-    
+
     /**
     * Get the value for a given header. Note that this will be the value
     * passed to any callback functions that are being used.
