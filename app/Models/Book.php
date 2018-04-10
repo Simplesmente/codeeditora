@@ -29,7 +29,7 @@ class Book extends Model implements Transformable, TableInterface
 
     public function author()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(\CodePub\User::class, 'user_id', 'id');
     }
 
     /**
@@ -67,6 +67,6 @@ class Book extends Model implements Transformable, TableInterface
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class)->withTrashed();
     }
 }

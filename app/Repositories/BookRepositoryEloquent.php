@@ -7,7 +7,8 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use CodePub\Repositories\BookRepository;
 use CodePub\Models\Book;
 use CodePub\Validators\BookValidator;
-use CodePub\Criteria\CriteriaOnlyTrashedTrait;
+use CodePub\Criteria\CriteriaTrashedTrait;
+use CodePub\Repositories\RepositoryRestoreTrait;
 
 /**
  * Class BookRepositoryEloquent
@@ -16,7 +17,8 @@ use CodePub\Criteria\CriteriaOnlyTrashedTrait;
 class BookRepositoryEloquent extends BaseRepository implements BookRepository
 {
 
-    use CriteriaOnlyTrashedTrait;
+    use CriteriaTrashedTrait;
+    use RepositoryRestoreTrait;
 
     protected $fieldSearchable = [
         'title'=>'like',
@@ -37,7 +39,7 @@ class BookRepositoryEloquent extends BaseRepository implements BookRepository
     {
         $model = parent::create($attributes);
         $model->categories()->sync($attributes['categories']);
-        
+
         return $model;
     }
 

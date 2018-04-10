@@ -3,6 +3,7 @@
 namespace CodePub\Http\Controllers\Auth;
 
 use CodePub\User;
+
 use CodePub\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;

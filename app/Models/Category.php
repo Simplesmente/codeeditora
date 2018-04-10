@@ -25,7 +25,7 @@ class Category extends Model implements Transformable, TableInterface
     {
         return [ 'ID','Nome'];
     }
-    
+
     /**
      * Get the value for a given header. Note that this will be the value
      * passed to any callback functions that are being used.
@@ -46,5 +46,11 @@ class Category extends Model implements Transformable, TableInterface
     public function books()
     {
         return $this->belongsToMany(Book::class);
+    }
+
+
+    public function getNameTrashedAttribute()
+    {
+      return $this->trashed() ? "{$this->name} (Inativa)": $this->name;
     }
 }

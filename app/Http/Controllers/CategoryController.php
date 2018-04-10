@@ -16,9 +16,8 @@ class CategoryController extends Controller
     }
 
     public function index()
-    { 
+    {
         $categories = $this->category->paginate(15);
-        
         return view('categories.index', ['categories' => $categories]);
     }
 
@@ -29,7 +28,7 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-        
+
         $this->category->create($request->all());
 
         $urlPrevious = $request->get('redirect_to', route('categories.index'));
@@ -65,10 +64,10 @@ class CategoryController extends Controller
         if (! ($category = $this->category->find($id))) {
             throw new ModelNotFoundException('Categoria não encontrada');
         }
-        
+
         $category->delete();
         \Session::flash('message', 'Categoria excluída com sucesso.');
-        
+
         return redirect()->route('categories.index');
     }
 }

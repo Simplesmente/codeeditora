@@ -16,7 +16,7 @@ class BookTrashedController extends Controller
      * @var [CodePub\Repositories\BookRepository]
      */
     private $book;
-    
+
     public function __construct(BookRepository $model)
     {
         $this->book = $model;
@@ -42,6 +42,16 @@ class BookTrashedController extends Controller
         $book = $this->book->find($id);
 
         return view('trashed.books.show', compact('book'));
+    }
+
+    public function update(Request $request,$id)
+    {
+      $this->book->onlyTrashed();
+      $this->book->restore($id);
+      $request->session()->flash('message', 'Livro restaurado com sucesso.');
+      $urlPrevious = $request->get('redirect_to', route('trashed.books.index'));
+
+      return redirect()->to($urlPrevious);
     }
 
 }

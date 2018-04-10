@@ -15,13 +15,6 @@
 $factory->define(\CodePub\Models\User::class, function (Faker\Generator $faker) {
     static $password;
 
-    // return [
-    //         'name' => 'André',
-    //         'email' => 'admin@domain.com',
-    //         'password' => $password ?: $password = bcrypt('secret'),
-    //         'remember_token' => str_random(10),
-    //     ];
-
     return [
         'name' => $faker->name,
         'email' => $faker->email,

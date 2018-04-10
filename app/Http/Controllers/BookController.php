@@ -32,7 +32,7 @@ class BookController extends Controller
     {
         $books = $this->book->paginate(15);
         $search = $request->get('search');
-        
+
         return view('books.index', compact('books', 'search'));
     }
 
@@ -83,7 +83,11 @@ class BookController extends Controller
      */
     public function edit($id, CategoryRepository $category)
     {
-        $categories = $category->pluck('name', 'id');
+      //  $categories = $category->pluck('name', 'id');
+
+        $category->withTrashed();
+        
+        $categories = $category->listsWithMutators('name_trashed', 'id');
 
         if (! ($book = $this->book->find($id))) {
             throw new ModelNotFoundException('Livro não encontrado');
