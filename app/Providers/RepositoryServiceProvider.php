@@ -3,6 +3,7 @@
 namespace CodePub\Providers;
 
 use Illuminate\Support\ServiceProvider;
+
 use CodePub\Repositories\CategoryRepository;
 use CodePub\Repositories\CategoryRepositoryEloquent;
 use CodePub\Repositories\BookRepository;

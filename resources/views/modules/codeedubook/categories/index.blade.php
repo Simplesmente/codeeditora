@@ -4,13 +4,14 @@
 
     <div class="container">
         <div class="row">
-            <h3>Listagem de Livros</h3>
-            <a href="{{ route('books.create') }}" class="btn btn-primary">Novo Livro</a>
+            <h3>Listagem de categories</h3>   
+            {!! Button::primary('Nova Categoria')->asLinkTo(route('categories.create'))!!}
+
         </div>
         <br>
         <div class="row">
             {!! Form::model(compact('search'),['class' =>'form-inline','method' => 'GET']) !!}
-                {!! Form::label('search','Pesquisar por título',['class' => 'control-label']) !!}
+                {!! Form::label('search','Pesquisar por nome',['class' => 'control-label']) !!}
                 {!! Form::text('search',null,['class' => 'form-control']) !!}
                 {!! Button::primary('Buscar')->submit() !!}
             {!! Form::close() !!}
@@ -18,16 +19,17 @@
         <br>
         <div class="row">
 
-        {!! 
-                Table::withContents($books->items())
+            {!!
+                Table::withContents($categories->items())
                                     ->striped()
-                                        ->callback('Ações', function($field,$book){
-                                        $linkEdit = route('books.edit',['book' => $book->id]);
-                                        $linkDestroy = route('books.destroy',['book' => $book->id]);
-                                        $deleteForm = "delete-form-{$book->id}";
+                                        ->callback('Ações', function($field,$category){
 
-                                        $form = Form::open(['route' =>
-                                                            ['books.destroy','book' => $book->id],
+                                            $linkEdit = route('categories.edit',['category' => $category->id]);
+                                            $linkDestroy = route('categories.destroy',['category' => $category->id]);
+                                            $deleteForm = "delete-form-{$category->id}";
+
+                                            $form = Form::open(['route' =>
+                                                            ['categories.destroy','category' => $category->id],
                                                             'method' => 'DELETE','id' => $deleteForm,'style' => 'display:none']).
                                                             Form::close();
                                             $anchorDestroy = Button::link('Delete')
@@ -39,12 +41,9 @@
                                                                         <li>". $anchorDestroy ."</li>
                                                     </ul>" . $form;
                                         })
+            !!}
 
-
-        !!}
-
-            {{ $books->links() }}
-
+            {{ $categories->links() }}
         </div>
     </div>
 

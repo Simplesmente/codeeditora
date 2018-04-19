@@ -4,8 +4,8 @@
 
     <div class="container">
         <div class="row">
-            <h3>Listagem de Livros</h3>
-            <a href="{{ route('books.create') }}" class="btn btn-primary">Novo Livro</a>
+            <h3>Lixeira de Livros</h3>
+
         </div>
         <br>
         <div class="row">
@@ -18,25 +18,30 @@
         <br>
         <div class="row">
 
-        {!! 
+    @if($books->count() > 0)
+
+
+
+        {!!
                 Table::withContents($books->items())
                                     ->striped()
                                         ->callback('Ações', function($field,$book){
-                                        $linkEdit = route('books.edit',['book' => $book->id]);
+                                        $linkView = route('trashed.books.show',['book' => $book->id]);
                                         $linkDestroy = route('books.destroy',['book' => $book->id]);
-                                        $deleteForm = "delete-form-{$book->id}";
+                                        $restoreForm = "restore-form-{$book->id}";
 
                                         $form = Form::open(['route' =>
-                                                            ['books.destroy','book' => $book->id],
-                                                            'method' => 'DELETE','id' => $deleteForm,'style' => 'display:none']).
+                                                            ['trashed.books.update','book' => $book->id],
+                                                            'method' => 'PUT','id' => $restoreForm,'style' => 'display:none']).
+                                                            Form::hidden('redirect_to',URL::previous()) .
                                                             Form::close();
-                                            $anchorDestroy = Button::link('Delete')
+                                            $anchorRestore = Button::link('Restaurar')
                                                                     ->asLinkTo($linkDestroy)->addAttributes([
-                                                                        'onclick' => "event.preventDefault();document.getElementById(\"{$deleteForm}\").submit();"
+                                                                        'onclick' => "event.preventDefault();document.getElementById(\"{$restoreForm}\").submit();"
                                                                     ]);
                                             return "<ul class='list-inline'>
-                                                                        <li>". Button::link('Editar')->asLinkTo($linkEdit) ."</li>
-                                                                        <li>". $anchorDestroy ."</li>
+                                                                        <li>". Button::link('Detalhes')->asLinkTo($linkView) ."</li>
+                                                                        <li>". $anchorRestore ."</li>
                                                     </ul>" . $form;
                                         })
 
@@ -44,6 +49,16 @@
         !!}
 
             {{ $books->links() }}
+
+      @else
+
+        <div class="well well-lg text-center">
+
+          <p><strong>Lixeira está vazia</strong></p>
+
+        </div>
+
+      @endif
 
         </div>
     </div>
