@@ -172,6 +172,8 @@ return [
          * Modules Service Providers
          */
 
+         \CodeEduBook\Providers\CodeEduBookServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
