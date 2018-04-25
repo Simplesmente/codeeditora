@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use CodePub\Models\User;
+use CodePub\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -17,6 +17,6 @@ class UsersTableSeeder extends Seeder
                       'password' => bcrypt('secret'),
                       'remember_token' => str_random(10)]);
 
-        factory(\CodePub\Models\User::class, 9)->create();
+        factory(\CodePub\User::class, 9)->create();
     }
 }
