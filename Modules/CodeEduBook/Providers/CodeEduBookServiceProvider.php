@@ -20,10 +20,10 @@ class CodeEduBookServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerMigrationAndSeeds();
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $this->registerMigrationAndSeeds();
     }
 
     /**

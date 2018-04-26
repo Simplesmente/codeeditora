@@ -5,7 +5,7 @@ namespace CodeEduBook\Repositories;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use CodeEduBook\Repositories\CategoryRepository;
-use CodeEduBook\Models\Category;
+use CodeEduBook\Entities\Category;
 use CodeEduBook\Validators\CategoryValidator;
 use CodeEduBook\Criteria\CriteriaTrashedTrait;
 
