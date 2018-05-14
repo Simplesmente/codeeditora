@@ -19,6 +19,7 @@ $factory->define(\CodePub\User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->email,
         'password' => $password ?: $password = bcrypt('secret'),
+        'verified' => true,
         'remember_token' => str_random(10),
     ];
 });

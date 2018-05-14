@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use CodeEduBook\Repositories\BookRepository;
 use CodeEduBook\Repositories\CategoryRepository;
+use CodeEduBook\Http\Requests\BookUpdateRequest;
 use CodeEduBook\Http\Requests\BookRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -103,7 +104,7 @@ class BookController extends Controller
      * @param  \CodeEduBook\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(BookRequest $request, $id)
+    public function update(BookUpdateRequest $request, $id)
     {
         if (! ($book = $this->book->find($id))) {
             throw new ModelNotFoundException('Livro não encontrado');
