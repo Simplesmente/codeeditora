@@ -35,11 +35,11 @@ class CreateUsersDataTable extends Migration
      */
     public function down()
     {
-        \Scheam::disableForeignKeyConstraints();
+        \Schema::disableForeignKeyConstraints();
 
         $user = User::where('email',config('codeeduuser.user_default.email'))->first();
         $user->forceDelete();
 
-        \Scheam::enableForeignKeyConstraints();
+        \Schema::enableForeignKeyConstraints();
     }
 }

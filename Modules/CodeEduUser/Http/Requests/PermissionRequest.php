@@ -2,11 +2,11 @@
 
 namespace CodeEduUser\Http\Requests;
 
-use CodeEduUser\Entities\User;
+use CodeEduUser\Entities\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class PermissionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,23 +24,22 @@ class UserRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
+    {    
         $id = null;
-        $user = null;
+        $role = null;
         
 
-        if ($user = $this->route('user') instanceof User) {
-            $id = $user->id;
+        if ($role = $this->route('role') instanceof \CodeEduUser\Entities\Permission) {
+            $id = $role->id;
         }
 
-        if ($user = $this->route('user')) {
-            $id = $user;
+        if ($role = $this->route('role')) {
+            $id = $role;
         }
-        
+
         return [
-            'name' => "required|max:255",
-            'email' => "required|unique:users,email,$id|max:255",
-            'roles.*' => 'exists:roles,id'
+      //      'permissions' => "required|array",
+            'permissions.*' => "exists:permissions,$id"
         ];
     }
    

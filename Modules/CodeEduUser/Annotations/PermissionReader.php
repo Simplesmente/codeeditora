@@ -1,0 +1,85 @@
+<?php
+namespace CodeEduUser\Annotations;
+
+use Doctrine\Common\Annotations\Reader;
+use CodeEduUser\Annotations\Mapping\Controller;
+use CodeEduUser\Annotations\Mapping\Action;
+
+class PermissionReader {
+
+    private $reader;
+
+    public function __construct(Reader $reader)
+    {
+        $this->reader = $reader;
+    }
+
+    public function getPermissions()
+    {
+        $controllersClass = $this->getControllers();
+        $declared = get_declared_classes();
+        $permissions = [];
+
+        foreach($declared as $className) {
+            $reflected = new \ReflectionClass($className);
+
+            if(in_array($reflected->getFileName(),$controllersClass)){
+               
+                $permission = $this->getPermission($className);
+
+                if(count($permission)) {
+                    $permissions[] = $permission;
+                }
+            }
+        }
+
+        return $permissions;
+    }
+
+    public function getPermission($controllerClass)
+    {
+        $classReflected = new \ReflectionClass($controllerClass);
+        $controllerAnnotation = $this->reader->getClassAnnotation($classReflected,Controller::class);
+        
+        $permissions=[];
+        
+        if($controllerAnnotation) {
+            $permission = [
+                'name' => $controllerAnnotation->name,
+                'description' => $controllerAnnotation->description
+            ];
+
+            $methodsReflected = $classReflected->getMethods();
+
+            foreach($methodsReflected as $method) {
+                $actionAnnotation = $this->reader->getMethodAnnotation($method,Action::class);   
+               
+                if($actionAnnotation){
+                    $permission['resource_name'] = $actionAnnotation->name;
+                    $permission['resource_description'] = $actionAnnotation->description;
+                    $permissions[] = (new \ArrayIterator($permission))->getArrayCopy();
+                }
+            }
+        }
+
+        return $permissions;
+    }
+
+    public function getControllers()
+    {
+        $dirs = config('codeeduuser.acl.controllers_annotations');
+        $files=[];
+
+        foreach($dirs as $dir) {
+            
+            foreach(\File::allFiles($dir) as $file){
+                $files[] = $file->getRealPath();
+                if(isset($files)) {
+                    require_once $file->getRealPath();
+                }
+            }
+        }
+        return $files;
+
+    }
+}

@@ -24,6 +24,10 @@ class CodeEduUserServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+
+        // $reader = app(\CodeEduUser\Annotations\PermissionReader::class);
+        // dd($reader->getPermissions());
+        //dd($reader->getPermission(\CodeEduUser\Http\Controllers\UsersController::class));
     }
 
     /**
@@ -35,6 +39,20 @@ class CodeEduUserServiceProvider extends ServiceProvider
     {
         $this->app->register(\Jrean\UserVerification\UserVerificationServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
+        $this->registerAnnotations();
+        $this->app->bind(\Doctrine\Common\Annotations\Reader::class,function(){
+            return new \Doctrine\Common\Annotations\CachedReader(
+                new \Doctrine\Common\Annotations\AnnotationReader,
+                new \Doctrine\Common\Cache\FilesystemCache(storage_path('framework/cache/doctrine-annotations')),
+                $debug = env('APP_DEBUG')
+            );
+        });
+    }
+
+    public function registerAnnotations()
+    {
+        $loader = require __DIR__ . '/../../../vendor/autoload.php';
+        \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader([$loader,'loadClass']);
     }
 
     /**

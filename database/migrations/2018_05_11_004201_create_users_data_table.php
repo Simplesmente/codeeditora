@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Eloquent\Model;
+
 use CodeEduUser\Entities\User;
+
 class CreateUsersDataTable extends Migration
 {
     /**
@@ -32,11 +35,11 @@ class CreateUsersDataTable extends Migration
      */
     public function down()
     {
-        \Scheam::disableForeignKeyConstraints();
+        \Schema::disableForeignKeyConstraints();
 
         $user = User::where('email',config('codeeduuser.user_default.email'))->first();
         $user->forceDelete();
 
-        \Scheam::enableForeignKeyConstraints();
+        \Schema::enableForeignKeyConstraints();
     }
 }

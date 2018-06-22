@@ -19,6 +19,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     public function create(array $attributes) {
         $attributes['password'] = User::generatePassword();
         $model = parent::create($attributes);
+        $model->roles()->sync($attributes['roles']);
         \UserVerification::generate($model);
         $subject = config('codeeduuser.email.user.user_created.subject');
         \UserVerification::emailView('codeeduuser::emails.user-created');
@@ -28,9 +29,15 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
 
     public function update(array $attributes,$id) {
        
-        $attributes['password'] || $attributes['password'] = User::generatePassword($attributes['password']);
+        if(isset($attributes['password']))
+            $attributes['password'] = User::generatePassword($attributes['password']);
+        
+        $model = parent::update($attributes, $id);
+        
+        if(isset($attributes['roles']))    
+            $model->roles()->sync($attributes['roles']);
 
-        return parent::update($attributes,$id);
+        return $model;
     }
 
     /**

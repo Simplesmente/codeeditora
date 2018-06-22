@@ -4,8 +4,8 @@
 
     <div class="container">
         <div class="row">
-            <h3>Listagem de usuários</h3>   
-            {!! Button::primary('Novo Usuário')->asLinkTo(route('codeeduuser.users.create'))!!}
+            <h3>Listagem de roles</h3>   
+            {!! Button::primary('Nova role')->asLinkTo(route('codeeduuser.roles.create'))!!}
           
         </div>
         <br>
@@ -20,32 +20,33 @@
         <div class="row">
 
             {!! 
-                Table::withContents($users->items())
+                Table::withContents($roles->items())
                                     ->striped()
-                                        ->callback('Ações', function($field,$user){
+                                        ->callback('Ações', function($field,$role){
                                             
-                                            $linkEdit = route('codeeduuser.users.edit',['user' => $user->id]);
-                                            $linkDestroy = route('codeeduuser.users.destroy',['user' => $user->id]);
-                                            $deleteForm = "delete-form-{$user->id}";
+                                            $linkEdit = route('codeeduuser.roles.edit',['role' => $role->id]);
+                                            $linkDestroy = route('codeeduuser.roles.destroy',['role' => $role->id]);
+                                            $anchorPermissions = route('codeeduuser.roles.permissions.edit',['role' => $role->id]);
+                                            $deleteForm = "delete-form-{$role->id}";
 
                                             $form = Form::open(['route' =>
-                                                            ['codeeduuser.users.destroy','user' => $user->id],
+                                                            ['codeeduuser.roles.destroy','role' => $role->id],
                                                             'method' => 'DELETE','id' => $deleteForm,'style' => 'display:none']).
                                                             Form::close();
                                             $anchorDestroy = Button::link('Delete')
                                                                     ->asLinkTo($linkDestroy)->addAttributes([
                                                                         'onclick' => "event.preventDefault();document.getElementById(\"{$deleteForm}\").submit();"    
                                                                     ]);
-                                            $anchor = $user->id === \Auth::user()->id ?$anchorDestroy->disable() : $anchorDestroy;
 
                                             return "<ul class='list-inline'> 
                                                                         <li>". Button::link('Editar')->asLinkTo($linkEdit) ."</li>
-                                                                        <li>". $anchor ."</li>
+                                                                        <li>". $anchorDestroy  ."</li>
+                                                                        <li>". Button::link('Permissões')->asLinkTo($anchorPermissions)  ."</li>
                                                     </ul>" . $form;  
                                         })
             !!}
            
-            {{ $users->links() }}
+            {{ $roles->links() }}
         </div>
     </div>
 

@@ -5,6 +5,8 @@ namespace CodePub\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use CodeEduUser\Console\CreatePermissionCommand;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -13,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        CreatePermissionCommand::class
     ];
 
     /**

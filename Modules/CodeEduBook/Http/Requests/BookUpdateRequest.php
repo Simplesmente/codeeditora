@@ -62,7 +62,6 @@ class BookUpdateRequest extends FormRequest
         if ($book = $this->route('book')) {
             $id = $book;
         }
-        
         return [
             'title' => "required|unique:books,title,$id|max:255",
             'subtitle' => "required|max:255",

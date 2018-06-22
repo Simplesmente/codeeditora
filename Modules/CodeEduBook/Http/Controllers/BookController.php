@@ -109,7 +109,7 @@ class BookController extends Controller
         if (! ($book = $this->book->find($id))) {
             throw new ModelNotFoundException('Livro não encontrado');
         }
-
+        
         $dataFromRequest = $request->except('user_id');
 
         $this->book->update($dataFromRequest,$id);

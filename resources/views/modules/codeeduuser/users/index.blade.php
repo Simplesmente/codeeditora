@@ -36,7 +36,7 @@
                                                                     ->asLinkTo($linkDestroy)->addAttributes([
                                                                         'onclick' => "event.preventDefault();document.getElementById(\"{$deleteForm}\").submit();"    
                                                                     ]);
-                                            $anchor = $user->id === \Auth::user()->id ?'': $anchorDestroy;
+                                            $anchor = $user->id === \Auth::user()->id ?$anchorDestroy->disable() : $anchorDestroy;
 
                                             return "<ul class='list-inline'> 
                                                                         <li>". Button::link('Editar')->asLinkTo($linkEdit) ."</li>
