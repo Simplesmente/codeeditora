@@ -6,6 +6,18 @@ namespace CodeEduUser\Annotations\Mapping;
  * @Target("CLASS")
  */
 class Controller {
+
+    /**
+     * Undocumented variable
+     *
+     * @var string
+     */
     public $name;
+
+    /**
+     * Undocumented variable
+     *
+     * @var string
+     */
     public $description;
 }

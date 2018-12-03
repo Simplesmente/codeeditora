@@ -1,8 +1,8 @@
 <?php
 
-Route::group(['as' => 'codeeduuser.','middleware' => ['web',config('codeeduuser.middleware.isVerified')]], function(){
+Route::group(['as' => 'codeeduuser.','middleware' => ['web',config('codeeduuser.middleware.isVerified'), 'auth.resource']], function(){
     
-    Route::group(['prefix' => 'admin','middleware' => 'can:user-admin'],function(){
+    Route::group(['prefix' => 'admin'], function(){
         Route::resource('users', '\CodeEduUser\Http\Controllers\UsersController', ['except'=>'show']);
         Route::resource('roles', '\CodeEduUser\Http\Controllers\RolesController', ['except'=>'show']);
      

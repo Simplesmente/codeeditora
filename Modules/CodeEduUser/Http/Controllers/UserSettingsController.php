@@ -8,6 +8,9 @@ use Illuminate\Routing\Controller;
 use CodeEduUser\Repositories\UserRepository;
 use CodeEduUser\Http\Requests\UserSettingsRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use CodeEduUser\Annotations\Mapping\Controller as ControllerAnnotation;
+use CodeEduUser\Annotations\Mapping\Action as ActionAnnotation;
+
 
 class UserSettingsController extends Controller
 {
@@ -19,12 +22,21 @@ class UserSettingsController extends Controller
         $this->user = $model;
     }
 
+     /**
+     *
+     * @return void
+     */
     public function edit()
     {
         $user = \Auth::user();
 
         return view('codeeduuser::users-settings.settings', ['user'=> $user]);
     }
+
+     /**
+     *
+     * @return void
+     */
 
     public function update(UserSettingsRequest $request)
     {

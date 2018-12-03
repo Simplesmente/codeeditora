@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'CodePub\Model' => 'CodePub\Policies\ModelPolicy',
+        'CodePub\Models' => 'CodePub\Policies\ModelPolicy',
     ];
 
     /**
@@ -24,17 +24,27 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        \Gate::define('update-book',function($user,$model){
-            return $user->id == $model->author_id;
+       
+        Gate::define('update-book',function($user,$model){
+            return $user->id == $model->author_id; 
         });
 
-        \Gate::before(function($user,$ability){
-            return $user->isAdmin() || false;
+        Gate::before(function($user,$ability){
+            if($user->isAdmin()) {
+                return true;    
+            }
         });
+        
+        $permissionRepository = app(\CodeEduUser\Repositories\PermissionRepositoryEloquent::class);
+        
+        $permissionRepository->pushCriteria( new \CodeEduUser\Criteria\FindPermissionResourceCriteria());
+        $permissions = $permissionRepository->all();
+        
+        foreach($permissions as $p) {
+            Gate::define("{$p->name}/{$p->resource_name}",function($user) use ($p) {
+                return $user->hasRole($p->roles);
+            });
+        }
 
-        // \Gate::define('user-admin',function($user){
-        //     return $user->isAdmin();
-        // });
     }
 }

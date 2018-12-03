@@ -18,17 +18,16 @@ class PermissionReader {
     {
         $controllersClass = $this->getControllers();
         $declared = get_declared_classes();
-        $permissions = [];
-
+        $permissions = [];     
+        
         foreach($declared as $className) {
             $reflected = new \ReflectionClass($className);
-
             if(in_array($reflected->getFileName(),$controllersClass)){
-               
-                $permission = $this->getPermission($className);
+                
+                $permission = $this->getPermission($className); 
 
                 if(count($permission)) {
-                    $permissions[] = $permission;
+                    $permissions =  array_merge($permissions, $permission);
                 }
             }
         }
@@ -36,7 +35,7 @@ class PermissionReader {
         return $permissions;
     }
 
-    public function getPermission($controllerClass)
+    public function getPermission($controllerClass, $action = null)
     {
         $classReflected = new \ReflectionClass($controllerClass);
         $controllerAnnotation = $this->reader->getClassAnnotation($classReflected,Controller::class);
@@ -49,20 +48,22 @@ class PermissionReader {
                 'description' => $controllerAnnotation->description
             ];
 
-            $methodsReflected = $classReflected->getMethods();
+            $methodsReflected = !$action ? $classReflected->getMethods() : [$classReflected->getMethod($action)];
 
             foreach($methodsReflected as $method) {
+
                 $actionAnnotation = $this->reader->getMethodAnnotation($method,Action::class);   
                
                 if($actionAnnotation){
                     $permission['resource_name'] = $actionAnnotation->name;
                     $permission['resource_description'] = $actionAnnotation->description;
+                        
                     $permissions[] = (new \ArrayIterator($permission))->getArrayCopy();
                 }
             }
         }
-
-        return $permissions;
+        
+        return $permissions;    
     }
 
     public function getControllers()

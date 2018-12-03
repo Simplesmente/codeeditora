@@ -38,7 +38,7 @@ class UsersController extends Controller
     }
 
     /**
-     * @ActionAnnotation(name="store",description="Criar usuários")
+     * @ActionAnnotation(name="store",description="Criar usuário")
      *
      * @return void
      */
@@ -49,7 +49,7 @@ class UsersController extends Controller
     }
 
     /**
-     * @ActionAnnotation(name="store",description="Criar usuários")
+     * @ActionAnnotation(name="store",description="Criar usuário")
      *
      * @return void
      */
@@ -63,7 +63,7 @@ class UsersController extends Controller
     }
 
     /**
-     * @ActionAnnotation(name="update",description="Atualizar usuários")
+     * @ActionAnnotation(name="update",description="Atualizar usuário")
      *
      * @return void
      */
@@ -79,7 +79,7 @@ class UsersController extends Controller
     }
 
     /**
-     * @ActionAnnotation(name="update",description="Atualizar usuários")
+     * @ActionAnnotation(name="update",description="Atualizar usuário")
      *
      * @return void
      */
@@ -99,7 +99,7 @@ class UsersController extends Controller
     }
 
     /**
-     * @ActionAnnotation(name="destroy",description="Excluir usuários")
+     * @ActionAnnotation(name="destroy",description="Excluir usuário")
      *
      * @return void
      */

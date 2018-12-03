@@ -25,13 +25,13 @@
                                         return $value->name == $group->name;
                                     });?>
 
-                                    @foreach($permissions as $permission)
+                                    @foreach($permissionSubGroup as $permission)
                                         <li>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" name="permissions[]"  value="{{$permission->id}}" 
                                                        {{ $role->permissions->contains('id', $permission->id)? 'checked=checked':'' }}  
-                                                    /> {{$permission->description}}
+                                                    /> {{$permission->resource_description}}
                                                 </label>
                                             </div>
                                             

@@ -6,8 +6,17 @@ use CodeEduUser\Entities\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use CodeEduUser\Repositories\RoleRepository;
+
 class RoleRequest extends FormRequest
 {
+
+    private $repository;
+
+    public function __construct(RoleRepository $repository)
+    {
+        $this->repository = $repository;
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +24,8 @@ class RoleRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $role = $this->repository->findByField('name', config('codeeduuser.acl.role_admin'))->first();
+        dd( $this->route('role') !== $role->id );
     }
 
     /**
@@ -25,32 +35,13 @@ class RoleRequest extends FormRequest
      */
     public function rules()
     {
-        $id = null;
-        $role = null;
-        
+           
+        $id = $this->route('role');
 
-        if ($role = $this->route('role') instanceof Role) {
-            $id = $role->id;
-        }
-
-        if ($role = $this->route('role')) {
-            $id = $role;
-        }
-          
         return [
-            'name' => "required|unique:roles,name,$id|max:255"
+            'name' => "required|max:255|unique:roles,name,$id",
+            'description' => 'max:255'
         ];
     }
    
-    /**
-    *
-    * public function messages()
-    *  {
-    *    return [
-    *        'name.required' => 'O nome é obrigatório!',
-    *        'name.max' => 'O máximo de caractes é 255!',
-    *        'name.unique' => 'O nome já existe!',
-    *    ];
-    *  }
-    */
 }

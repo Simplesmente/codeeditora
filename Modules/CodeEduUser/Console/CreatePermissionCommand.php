@@ -53,26 +53,22 @@ class CreatePermissionCommand extends Command
         $permissions = $this->reader->getPermissions();
 
         foreach($permissions as $permission) {
-           // if(!$this->existsPermission($permission)){
-               foreach($permission as $perm) {
-                    $this->repository->create($permission);
-               }
-                
-           // }
+
+            if(!$this->existsPermission($permission)){
+                $this->repository->create($permission);
+            }
         }
+        
         $this->info("<info>Permissões Carregadas</info>");
     }
 
-    // private function existsPermission($permission) {
-       
-    //     foreach($permission as $perm) {
-
-    //         $this->repository->findWhere([
-    //             'name' => $perm['name'],
-    //             'resource_name' => $perm['resource_name']
-    //         ])->first();
-    //     }
-
-    //     return $permission !== null;
-    // }
+    private function existsPermission($permission) {
+              
+            $result = $this->repository->findWhere([
+                'name' => $permission['name'],
+                'resource_name' => $permission['resource_name']
+            ])->first();
+        
+        return $result !== null;
+    }
 }

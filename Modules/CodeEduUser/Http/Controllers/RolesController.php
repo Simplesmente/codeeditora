@@ -3,6 +3,7 @@
 namespace CodeEduUser\Http\Controllers;
 
 use CodeEduUser\Repositories\RoleRepository;
+use CodeEduUser\Http\Requests\RoleRequest;
 use CodeEduUser\Repositories\PermissionRepository; 
 use CodeEduUser\Http\Requests\PermissionRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -13,7 +14,7 @@ use CodeEduUser\Annotations\Mapping\Action as ActionAnnotation;
 
 
 /**
- * @ControllerAnnotation(name="roles-admin",description="Administração de Papéis de usuarios")
+ * @ControllerAnnotation(name="roles-admin",description="Perfis de usuário")
  */
 class RolesController extends Controller
 {
@@ -29,7 +30,7 @@ class RolesController extends Controller
     }
 
      /**
-     * @ActionAnnotation(name="list",description="Ver listagem de papéis de usuários")
+     * @ActionAnnotation(name="list",description="Listar Perfil de Usuário")
      *
      * @return void
      */
@@ -41,7 +42,7 @@ class RolesController extends Controller
     }
 
      /**
-     * @ActionAnnotation(name="list",description="Ver listagem de papéis usuários")
+     * @ActionAnnotation(name="list",description="Listar Perfil de Usuário")
      *
      * @return void
      */
@@ -60,7 +61,7 @@ class RolesController extends Controller
     }
 
     /**
-     * @ActionAnnotation(name="update",description="Atualizar de usuários papéis usuários")
+     * @ActionAnnotation(name="update",description="Atualização Perfil de Usuário")
      *
      * @return void
      */
@@ -75,7 +76,7 @@ class RolesController extends Controller
     }
 
     /**
-     * @ActionAnnotation(name="update",description="Atualizar de usuários papéis usuários")
+     * @ActionAnnotation(name="update",description="Atualização Perfil de Usuário")
      *
      * @return void
      */
@@ -94,7 +95,7 @@ class RolesController extends Controller
     }
 
     /**
-     * @ActionAnnotation(name="destroy",description="Remover papéis usuários")
+     * @ActionAnnotation(name="destroy",description="Remover Perfil de Usuário")
      *
      * @return void
      */
@@ -120,7 +121,7 @@ class RolesController extends Controller
      *
      * @return void
      */
-    public function editPermission($id)
+    public function editPermission(PermissionRequest $request, $id)
     {
         
         $role = $this->role->find($id);
@@ -140,9 +141,10 @@ class RolesController extends Controller
      *
      * @return void
      */
-    public function updatePermission(PermissionRequest $request,$id)
+    public function updatePermission(Request $request,$id)
     {
         $data = $request->only('permissions');
+        
         $this->role->update($data,$id);
         $request->session()->flash('message', 'Permissões atribuídas com sucesso.');
 
