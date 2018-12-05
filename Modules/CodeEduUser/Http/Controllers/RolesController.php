@@ -144,7 +144,7 @@ class RolesController extends Controller
     public function updatePermission(Request $request,$id)
     {
         $data = $request->only('permissions');
-        
+       
         $this->role->update($data,$id);
         $request->session()->flash('message', 'Permissões atribuídas com sucesso.');
 

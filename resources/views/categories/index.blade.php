@@ -4,8 +4,11 @@
 
     <div class="container">
         <div class="row">
-            <h3>Listagem de categories</h3>   
-            {!! Button::primary('Nova Categoria')->asLinkTo(route('categories.create'))!!}
+            <h3>Listagem de categories</h3>  
+            
+            @can('users-admin/list')  
+               {!! Button::primary('Nova Categoria')->asLinkTo(route('categories.create'))!!}
+            @endcan
           
         </div>
         <br>

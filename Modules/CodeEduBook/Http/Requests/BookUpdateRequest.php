@@ -5,6 +5,7 @@ namespace CodeEduBook\Http\Requests;
 use CodeEduBook\Repositories\BookRepository;
 use CodeEduBook\Http\Requests\CategoryRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class BookUpdateRequest extends FormRequest
 {
@@ -41,7 +42,9 @@ class BookUpdateRequest extends FormRequest
             $book = $this->book->find($paramFromRoute);
         }
        
-        return \Gate::allows('update-book',$book);
+        $user = Auth::user();
+     
+        return $user->can('update', $book);
     }
 
      /**

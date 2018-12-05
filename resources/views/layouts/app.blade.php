@@ -16,7 +16,8 @@
 
     <!-- Scripts -->
     <script>
-        window.Laravel = <?php echo json_encode([
+        window.Laravel = <?php 
+echo json_encode([
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
@@ -29,39 +30,45 @@
             $navbar = Navbar::withBrand(config('app.name'), url('/'))->inverse();
 
             if (Auth::check()) {
-                $links = Navigation::links([
+                $arrayLinks = [
+                    [
+                        'link' => route('categories.index'),
+                        'title' => 'Categorias'
+                    ],
+                    [
+                        'Livro',
                         [
-                            'link' => route('categories.index'),
-                            'title' => 'Categorias'
-                        ],
-                        [
-                            'Livro',
                             [
-                                [
-                                    'link' => route('books.index'),
-                                    'title' => 'Listagem'
-                                ],
-                                [
-                                    'link' => route('trashed.books.index'),
-                                    'title' => 'Lixeira'
-                                ]
-                            ]
-                            
-                        ],
-                        [
-                            'Usuários',
+                                'link' => route('books.index'),
+                                'title' => 'Listagem'
+                            ],
                             [
-                                [
-                                    'link' => route('codeeduuser.users.index'),
-                                    'title' => 'Usuários'
-                                ],
-                                [
-                                    'link' => route('codeeduuser.roles.index'),
-                                    'title' => 'Papel de usuários'
-                                ]
+                                'link' => route('trashed.books.index'),
+                                'title' => 'Lixeira'
                             ]
                         ]
-                ]);
+                        
+                    ]
+                   
+                ];
+
+                if(Auth::user()->can('users-admin/list')) {
+                    $arrayLinks[] = [
+                        'Usuários',
+                        [
+                            [
+                                'link' => route('codeeduuser.users.index'),
+                                'title' => 'Usuários'
+                            ],
+                            [
+                                'link' => route('codeeduuser.roles.index'),
+                                'title' => 'Papel de usuários'
+                            ]
+                        ]
+                            ];
+                 }
+
+                $links = Navigation::links($arrayLinks);
                 
                 $logout = Navigation::links([
                     [

@@ -80,6 +80,7 @@ class PermissionReader {
                 }
             }
         }
+        
         return $files;
 
     }

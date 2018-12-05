@@ -93,7 +93,7 @@ class User extends Authenticatable implements TableInterface
     {
         return is_string($role) ?
             $this->roles->contains('name',$role) :
-            $this->roles->intersect($this->roles)->count();
+            (boolean) $this->roles->intersect($role)->count();
 
     }
 

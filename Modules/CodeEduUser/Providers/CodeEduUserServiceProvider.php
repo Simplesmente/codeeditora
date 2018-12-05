@@ -3,6 +3,7 @@
 namespace CodeEduUser\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use CodeEduUser\Providers\AuthServiceProvider;
 
 class CodeEduUserServiceProvider extends ServiceProvider
 {
@@ -38,6 +39,7 @@ class CodeEduUserServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(\Jrean\UserVerification\UserVerificationServiceProvider::class);
+        $this->app->register(AuthServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
         $this->registerAnnotations();
         

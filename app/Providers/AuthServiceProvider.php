@@ -30,20 +30,23 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::before(function($user,$ability){
+            
             if($user->isAdmin()) {
                 return true;    
             }
         });
         
-        $permissionRepository = app(\CodeEduUser\Repositories\PermissionRepositoryEloquent::class);
+        $permissionRepository = app(\CodeEduUser\Repositories\PermissionRepository::class);
         
         $permissionRepository->pushCriteria( new \CodeEduUser\Criteria\FindPermissionResourceCriteria());
         $permissions = $permissionRepository->all();
         
         foreach($permissions as $p) {
+            
             Gate::define("{$p->name}/{$p->resource_name}",function($user) use ($p) {
                 return $user->hasRole($p->roles);
             });
+           
         }
 
     }

@@ -5,17 +5,11 @@ namespace CodeEduUser\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-use CodeEduUser\Annotations\PermissionReader;
+use CodeEduUser\Facade\PermissionReader;
 
 class AuthorizationResource
 {
 
-    private $reader;
-
-    public function __construct(PermissionReader $reader)
-    {
-        $this->reader = $reader;
-    }
 
     /**
      * Handle an incoming request.
@@ -29,12 +23,12 @@ class AuthorizationResource
         $currentAction = \Route::currentRouteAction();
        
         list($controller,$action) = explode('@',$currentAction);
-        $permission = $this->reader->getPermission($controller,$action);
+        $permission = PermissionReader::getPermission($controller,$action);
 
         if(count($permission)) {
 
             $permission = $permission[0];
-            
+           
             if(! \Gate::allows("{$permission['name']}/{$permission['resource_name']}") ) {
                 throw new \Illuminate\Auth\Access\AuthorizationException('Usuário não autorizado');
             }
